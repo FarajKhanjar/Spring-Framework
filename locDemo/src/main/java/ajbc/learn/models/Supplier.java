@@ -15,17 +15,24 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"picture"}) //print without picture.
+@ToString
 @Entity
-@Table(name="Categories")
-public class Category {
-	
+@Table(name="Suppliers")
+public class Supplier 
+{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int categoryId;
-	@Column(name = "categoryName")
-	private String catName; //because the name in java is not the same name of the calumn in Sql.
-	private String description;
-	private byte[] picture;
+	private int supplierID;
+	private String companyName;
+	private String contactName;
+	private String contactTitle;
+	private String address;
+	private String city;
+	private String postalCode;
+	private String region;
+	private String country;
+	private String phone;
+	private String fax;
+	private String homePage;
 
 }

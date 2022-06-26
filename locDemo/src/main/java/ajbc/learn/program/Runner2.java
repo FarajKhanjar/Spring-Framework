@@ -39,7 +39,7 @@ public class Runner2 {
 			public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Category cat = new Category();
 				cat.setCategoryId(rs.getInt("categoryId"));
-				cat.setCategoryName(rs.getString("categoryName"));
+				cat.setCatName(rs.getString("categoryName"));
 				cat.setDescription(rs.getString("description"));
 				cat.setPicture(rs.getBytes("picture"));
 				return cat;

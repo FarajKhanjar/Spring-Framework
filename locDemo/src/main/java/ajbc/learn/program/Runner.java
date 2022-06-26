@@ -1,5 +1,6 @@
 package ajbc.learn.program;
 
+import ajbc.learn.dao.DaoException;
 import ajbc.learn.dao.JdbcProductDao;
 import ajbc.learn.dao.MongoProductDao;
 
@@ -13,7 +14,7 @@ import ch.qos.logback.classic.Logger;
 
 public class Runner {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DaoException {
 		
 		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 		root.setLevel(Level.ERROR);
