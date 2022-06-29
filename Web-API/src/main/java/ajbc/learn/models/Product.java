@@ -40,8 +40,6 @@ public class Product
 	@JoinColumn(name="categoryId")
 	private Category category;
 	
-	
-	
 	private String quantityPerUnit;
 	private Double unitPrice;
 	private Integer unitsInStock;

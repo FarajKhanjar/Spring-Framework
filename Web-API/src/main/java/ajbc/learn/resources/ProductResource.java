@@ -12,8 +12,6 @@ import ajbc.learn.dao.DaoException;
 import ajbc.learn.dao.ProductDao;
 import ajbc.learn.models.Product;
 
-
-
 @RequestMapping("/products")
 @Controller
 public class ProductResource {

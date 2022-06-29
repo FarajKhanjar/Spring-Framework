@@ -24,7 +24,6 @@ public class HibernateTemplateProductDao implements ProductDao {
 		// open session/connection to DB
 		template.persist(product);
 		// close session
-
 	}
 
 	@Override
