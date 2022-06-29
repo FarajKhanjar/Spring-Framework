@@ -15,9 +15,9 @@ import ajbc.learn.dao.DaoException;
 
 @Aspect
 @Component
-public class MyAspect {
+public class MyAspectCategory {
 
-	public MyAspect() {
+	public MyAspectCategory() {
 //		System.out.println("Aspect calling to main");
 	}
 	
@@ -25,25 +25,15 @@ public class MyAspect {
 	//this is an advice method
 	//syntax: (? means optional)
 	// "execution(modifier? return-type? method-pattern(arg-type, arg-type, ..))"
-	@Before("execution(* ajbc.learn.dao.ProductDao.*(..))")
+	@Before("execution(* ajbc.learn.dao.CategoryDao.*(..))")
 	public void logBeforeCalling(JoinPoint joinPoint) {
 		System.out.println("Aspect is writing to logger method name: "+joinPoint.getSignature().getName());
 		System.out.println("args are "+Arrays.toString(joinPoint.getArgs()));
 	}
 	
-	@Around("execution(* ajbc.learn.dao.ProductDao.get*(Double, Double))")
-	public Object swapInputs(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		Object[] args = proceedingJoinPoint.getArgs();
-		Double min = (Double) args[0];
-		Double max = (Double) args[1];
-		if(max<min) {
-			args = new Object[] {max, min};
-		}
-		return proceedingJoinPoint.proceed(args);
-	}
 	
 	
-	@AfterThrowing(throwing = "ex", pointcut = "execution(* ajbc.learn.dao.ProductDao.*(..))")
+	@AfterThrowing(throwing = "ex", pointcut = "execution(* ajbc.learn.dao.CategoryDao.*(..))")
 	public void convertToDaoException(Throwable ex) throws DaoException {
 		throw new DaoException(ex);
 	}
