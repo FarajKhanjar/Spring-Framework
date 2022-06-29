@@ -66,6 +66,7 @@ public class ProductResource {
 //		return ResponseEntity.ok(list);
 //	}
 	
+	
 	@RequestMapping(method = RequestMethod.GET, path="/{id}")
 	public ResponseEntity<?> getProductsById(@PathVariable Integer id) {
 		

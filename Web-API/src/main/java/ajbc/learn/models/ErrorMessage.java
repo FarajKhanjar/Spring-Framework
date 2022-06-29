@@ -12,5 +12,4 @@ public class ErrorMessage {
 	private String message;
 	private Object data;
 	
-
 }

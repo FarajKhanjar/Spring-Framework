@@ -45,7 +45,6 @@ public class HibernateTemplateProductDao implements ProductDao {
 		prod.setDiscontinued(1);
 		updateProduct(prod);
 	}
-
 	
 	@Override
 	public List<Product> getAllProducts() throws DaoException {
