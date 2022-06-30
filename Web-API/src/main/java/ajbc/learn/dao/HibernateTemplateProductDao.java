@@ -1,5 +1,6 @@
 package ajbc.learn.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import ajbc.learn.models.Category;
 import ajbc.learn.models.Product;
+import ajbc.learn.models.Supplier;
 
 @SuppressWarnings("unchecked")
 @Component(value="ht_Product_Dao")
@@ -94,6 +97,16 @@ public class HibernateTemplateProductDao implements ProductDao {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Product.class);
 		criteria.setProjection(Projections.rowCount());
 		return (long)template.findByCriteria(criteria).get(0);
+	}
+	
+	@Override
+	public Category getCategoryByProductId(Integer productId) throws DaoException {	
+		Product prod = template.get(Product.class, productId);
+		int categoryId = prod.getCategoryId();
+		Category category = template.get(Category.class, categoryId);
+		if (category ==null)
+			throw new DaoException("No Such Product in DB with id: "+productId);
+		return category;
 	}
 
 	

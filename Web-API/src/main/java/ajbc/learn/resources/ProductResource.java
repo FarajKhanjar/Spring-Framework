@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ajbc.learn.dao.DaoException;
 import ajbc.learn.dao.ProductDao;
+import ajbc.learn.models.Category;
 import ajbc.learn.models.ErrorMessage;
 import ajbc.learn.models.Product;
 
@@ -130,6 +131,21 @@ public class ProductResource {
 			errorMessage.setData(e.getMessage());
 			errorMessage.setMessage("failed to delete product from db");
 			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/{id}/category")
+	public ResponseEntity<?> getCategoryByProductId(@PathVariable Integer id) {
+		
+		try {
+			Category category = dao.getCategoryByProductId(id);
+			return ResponseEntity.status(HttpStatus.OK).body(category);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("failed, make sure that you write 'category'");
+			return ResponseEntity.status(HttpStatus.valueOf(404)).body(errorMessage);
 		}
 	}
 	

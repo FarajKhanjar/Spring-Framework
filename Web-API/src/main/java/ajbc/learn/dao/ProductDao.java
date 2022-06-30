@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ajbc.learn.models.Category;
 import ajbc.learn.models.Product;
 
 @Transactional(rollbackFor = {DaoException.class}, readOnly = true)
@@ -52,6 +53,10 @@ public interface ProductDao {
 	}
 
 	public default List<Product> getDiscontinuedProducts() throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
+	
+	public default Category getCategoryByProductId(Integer productId) throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
 
