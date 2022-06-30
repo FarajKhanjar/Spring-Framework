@@ -65,6 +65,11 @@ public interface ProductDao {
 		throw new DaoException("Method not implemented");
 	}
 
+	public default List<Product> getProductsOfSupplier(Integer supplierId) throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
+
+	
 	public default long count() throws DaoException {
 		throw new DaoException("Method not implemented");
 	}

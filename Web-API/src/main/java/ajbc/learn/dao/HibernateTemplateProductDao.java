@@ -123,6 +123,18 @@ public class HibernateTemplateProductDao implements ProductDao {
 			throw new DaoException("No Such Category: "+categoryId+" in DB");
 		return productsInCategory;
 	}
+	
+	@Override
+	public List<Product> getProductsOfSupplier(Integer supplierId) throws DaoException {	
+		List<Product> allProducts = getAllProducts();
+		List<Product> productsOfSupplier = new ArrayList<Product>();
+		for(Product p : allProducts)
+			if(p.getSupplierId()==supplierId)
+				productsOfSupplier.add(template.get(Product.class, p.getProductId()));
 
+		if (productsOfSupplier.isEmpty())
+			throw new DaoException("No Such Supplier: "+supplierId+" in DB");
+		return productsOfSupplier;
+	}
 	
 }

@@ -37,19 +37,19 @@ public class ProductResource {
 		return ResponseEntity.ok(list);
 	}
 	
-//	@RequestMapping(method = RequestMethod.GET)
-//	public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestParam(name="min") Optional<Double> min,@RequestParam(name="max") Optional<Double> max) throws DaoException{
-//		List<Product> list;
-//		if(min.isPresent() && max.isPresent())
-//			list = dao.getProductsByPriceRange(min.get(), max.get());
-//		else
-//			list = dao.getAllProducts();
-//		
-//		if(list==null)
-//			return ResponseEntity.notFound().build();
+	@RequestMapping(method = RequestMethod.GET, path="/priceRange")
+	public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestParam(name="min") Optional<Double> min,@RequestParam(name="max") Optional<Double> max) throws DaoException{
+		List<Product> list;
+		if(min.isPresent() && max.isPresent())
+			list = dao.getProductsByPriceRange(min.get(), max.get());
+		else
+			list = dao.getAllProducts();
+		
+		if(list==null)
+			return ResponseEntity.notFound().build();
 	
-//		return ResponseEntity.ok(list);
-//	}
+		return ResponseEntity.ok(list);
+	}
 	
 	//Another way:
 //	@RequestMapping(method = RequestMethod.GET)
@@ -182,10 +182,21 @@ public class ProductResource {
 
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, path="/ofSupplier/{supplierId}")
+	public ResponseEntity<?> getProductsOfSupplier(@PathVariable Integer supplierId) {
 	
-	
-	
-	
-	
+		List<Product> productsOfSupplier;
+		try {
+			productsOfSupplier = dao.getProductsOfSupplier(supplierId);
+			return ResponseEntity.ok(productsOfSupplier);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get products of supplier: "+supplierId);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
 	
 }
