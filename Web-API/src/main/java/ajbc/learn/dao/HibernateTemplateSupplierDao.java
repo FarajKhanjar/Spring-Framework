@@ -1,5 +1,6 @@
 package ajbc.learn.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
@@ -56,11 +57,16 @@ public class HibernateTemplateSupplierDao implements SupplierDao {
 	}
 
 	@Override
-	public List<Supplier> getSuppliersInCity(String cityName) throws DaoException {
-		
-		DetachedCriteria criteria = DetachedCriteria.forClass(Supplier.class);
-		criteria.add(Restrictions.eq("city", cityName));
-		return (List<Supplier>)template.findByCriteria(criteria);
+	public List<Supplier> getSupplierByCity(String city) throws DaoException {	
+		List<Supplier> allSuppliers = getAllSuppliers();
+		List<Supplier> suppliersInCity = new ArrayList<Supplier>();
+		for(Supplier s : allSuppliers)
+			if(s.getCity().equals(city))
+				suppliersInCity.add(template.get(Supplier.class, s.getSupplierId()));
+
+		if (suppliersInCity.isEmpty())
+			throw new DaoException("No Such Supplier in: "+city+" city");
+		return suppliersInCity;
 	}
 
 	@Override

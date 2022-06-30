@@ -36,7 +36,7 @@ public interface SupplierDao {
 	}
 
 
-	public default List<Supplier> getSuppliersInCity(String cityName) throws DaoException {
+	public default List<Supplier> getSupplierByCity(String city) throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
 

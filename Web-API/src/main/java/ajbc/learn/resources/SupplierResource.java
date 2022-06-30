@@ -37,21 +37,21 @@ public class SupplierResource {
 		return ResponseEntity.ok(list);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path="/{id}")
-	public ResponseEntity<?> getSuppliersById(@PathVariable Integer id) {
-		
-		Supplier supplier;
-		try {
-			supplier = dao.getSupplier(id);
-			return ResponseEntity.ok(supplier);
-			
-		} catch (DaoException e) {
-			ErrorMessage errorMessage = new ErrorMessage();
-			errorMessage.setData(e.getMessage());
-			errorMessage.setMessage("Failed to get supplier with id: "+id);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-		}
-	}
+//	@RequestMapping(method = RequestMethod.GET, path="/{id}")
+//	public ResponseEntity<?> getSuppliersById(@PathVariable Integer id) {
+//		
+//		Supplier supplier;
+//		try {
+//			supplier = dao.getSupplier(id);
+//			return ResponseEntity.ok(supplier);
+//			
+//		} catch (DaoException e) {
+//			ErrorMessage errorMessage = new ErrorMessage();
+//			errorMessage.setData(e.getMessage());
+//			errorMessage.setMessage("Failed to get supplier with id: "+id);
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+//		}
+//	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> addSupplier(@RequestBody Supplier supplier) {
@@ -104,22 +104,21 @@ public class SupplierResource {
 	}
 	
 	
-//	@RequestMapping(method = RequestMethod.GET, path="/{city}")
-//	public ResponseEntity<?> getSuppliersInCity(@PathVariable String city) {
-//		
-//		List<Supplier> list = null;
-//		
-//		try {
-//			list.addAll(dao.getSuppliersInCity(city));
-//			return ResponseEntity.ok(list);
-//			
-//		} catch (DaoException e) {
-//			ErrorMessage errorMessage = new ErrorMessage();
-//			errorMessage.setData(e.getMessage());
-//			errorMessage.setMessage("Failed to get supplier in : "+city+" city.");
-//			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
-//		}
-//	}
+	@RequestMapping(method = RequestMethod.GET, path="/byCity/{city}")
+	public ResponseEntity<?> getSuppliersInCity(@PathVariable String city) {
 	
+		List<Supplier> suppliersInCity;
+		try {
+			suppliersInCity = dao.getSupplierByCity(city);
+			return ResponseEntity.ok(suppliersInCity);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get supplier in: "+city);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
 
 }
