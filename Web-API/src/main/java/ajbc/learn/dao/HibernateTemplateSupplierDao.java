@@ -68,6 +68,19 @@ public class HibernateTemplateSupplierDao implements SupplierDao {
 			throw new DaoException("No Such Supplier in: "+city+" city");
 		return suppliersInCity;
 	}
+	
+	@Override
+	public List<Supplier> getSupplierByCountry(String country) throws DaoException {	
+		List<Supplier> allSuppliers = getAllSuppliers();
+		List<Supplier> suppliersInCountry = new ArrayList<Supplier>();
+		for(Supplier s : allSuppliers)
+			if(s.getCountry().equals(country))
+				suppliersInCountry.add(template.get(Supplier.class, s.getSupplierId()));
+
+		if (suppliersInCountry.isEmpty())
+			throw new DaoException("No Such Supplier in: "+country+" country");
+		return suppliersInCountry;
+	}
 
 	@Override
 	public long count() throws DaoException {

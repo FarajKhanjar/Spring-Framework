@@ -120,5 +120,22 @@ public class SupplierResource {
 		}
 
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/byCountry/{country}")
+	public ResponseEntity<?> getSuppliersInCountry(@PathVariable String country) {
+	
+		List<Supplier> suppliersInCountry;
+		try {
+			suppliersInCountry = dao.getSupplierByCountry(country);
+			return ResponseEntity.ok(suppliersInCountry);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get supplier in: "+country);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
 
 }
