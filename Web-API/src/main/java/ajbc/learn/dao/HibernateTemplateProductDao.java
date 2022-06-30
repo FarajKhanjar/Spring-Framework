@@ -64,14 +64,6 @@ public class HibernateTemplateProductDao implements ProductDao {
 	}
 
 	@Override
-	public List<Product> getProductsInCategory(Integer categoryId) throws DaoException {
-		
-		DetachedCriteria criteria = DetachedCriteria.forClass(Product.class);
-		criteria.add(Restrictions.eq("categoryId", categoryId));
-		return (List<Product>)template.findByCriteria(criteria);
-	}
-
-	@Override
 	public List<Product> getProductsNotInStock() throws DaoException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Product.class);
 		criteria.add(Restrictions.eq("unitsInStock", 0));
@@ -117,6 +109,19 @@ public class HibernateTemplateProductDao implements ProductDao {
 		if (supplier ==null)
 			throw new DaoException("No Such Product in DB with id: "+productId);
 		return supplier;
+	}
+	
+	@Override
+	public List<Product> getProductsInCategory(Integer categoryId) throws DaoException {	
+		List<Product> allProducts = getAllProducts();
+		List<Product> productsInCategory = new ArrayList<Product>();
+		for(Product p : allProducts)
+			if(p.getCategoryId()==categoryId)
+				productsInCategory.add(template.get(Product.class, p.getProductId()));
+
+		if (productsInCategory.isEmpty())
+			throw new DaoException("No Such Category: "+categoryId+" in DB");
+		return productsInCategory;
 	}
 
 	

@@ -41,10 +41,6 @@ public interface ProductDao {
 		throw new DaoException("Method not implemented");
 	}
 
-	public default List<Product> getProductsInCategory(Integer categoryId) throws DaoException {
-		throw new DaoException("Method not implemented");
-	}
-
 	public default List<Product> getProductsNotInStock() throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
@@ -62,6 +58,10 @@ public interface ProductDao {
 	}
 	
 	public default Supplier getSupplierByProductId(Integer productId) throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
+	
+	public default List<Product> getProductsInCategory(Integer categoryId) throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
 

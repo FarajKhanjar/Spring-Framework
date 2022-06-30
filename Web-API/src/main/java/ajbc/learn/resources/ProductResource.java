@@ -165,6 +165,23 @@ public class ProductResource {
 		}
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, path="/inCategory/{categoryId}")
+	public ResponseEntity<?> getProductsInCategory(@PathVariable Integer categoryId) {
+	
+		List<Product> productsInCategory;
+		try {
+			productsInCategory = dao.getProductsInCategory(categoryId);
+			return ResponseEntity.ok(productsInCategory);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get products in category: "+categoryId);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
+	
 	
 	
 	
