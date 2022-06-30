@@ -108,6 +108,16 @@ public class HibernateTemplateProductDao implements ProductDao {
 			throw new DaoException("No Such Product in DB with id: "+productId);
 		return category;
 	}
+	
+	@Override
+	public Supplier getSupplierByProductId(Integer productId) throws DaoException {	
+		Product prod = template.get(Product.class, productId);
+		int supplierId = prod.getCategoryId();
+		Supplier supplier = template.get(Supplier.class, supplierId);
+		if (supplier ==null)
+			throw new DaoException("No Such Product in DB with id: "+productId);
+		return supplier;
+	}
 
 	
 }

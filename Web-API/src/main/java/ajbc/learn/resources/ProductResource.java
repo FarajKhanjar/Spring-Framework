@@ -20,6 +20,7 @@ import ajbc.learn.dao.ProductDao;
 import ajbc.learn.models.Category;
 import ajbc.learn.models.ErrorMessage;
 import ajbc.learn.models.Product;
+import ajbc.learn.models.Supplier;
 
 @RequestMapping("/products")
 @RestController
@@ -145,6 +146,21 @@ public class ProductResource {
 			ErrorMessage errorMessage = new ErrorMessage();
 			errorMessage.setData(e.getMessage());
 			errorMessage.setMessage("failed, make sure that you write 'category'");
+			return ResponseEntity.status(HttpStatus.valueOf(404)).body(errorMessage);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/{id}/supplier")
+	public ResponseEntity<?> getSupplierByProductId(@PathVariable Integer id) {
+		
+		try {
+			Supplier supplier = dao.getSupplierByProductId(id);
+			return ResponseEntity.status(HttpStatus.OK).body(supplier);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("failed, make sure that you write 'supplier'");
 			return ResponseEntity.status(HttpStatus.valueOf(404)).body(errorMessage);
 		}
 	}
