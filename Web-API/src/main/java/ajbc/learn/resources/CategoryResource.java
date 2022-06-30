@@ -35,25 +35,7 @@ public class CategoryResource {
 		if(list==null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(list);
-	}
-	
-	//Another way:
-//	@RequestMapping(method = RequestMethod.GET)
-//	public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestParam Map<String,String> map) throws DaoException{
-//		List<Product> list;
-//		Set<String> keys = map.keySet();
-//		
-//		if(keys.contains("min") && keys.contains("max"))
-//			list = dao.getProductsByPriceRange(Double.parseDouble(map.get("min")),Double.parseDouble(map.get("max")));
-//		else
-//			list = dao.getAllProducts();
-//		
-//		if(list==null)
-//			return ResponseEntity.notFound().build();
-//		
-//		return ResponseEntity.ok(list);
-//	}
-	
+	}	
 	
 	@RequestMapping(method = RequestMethod.GET, path="/{id}")
 	public ResponseEntity<?> getCategoriesById(@PathVariable Integer id) {
