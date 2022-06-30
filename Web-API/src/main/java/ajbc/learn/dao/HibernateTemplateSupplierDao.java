@@ -45,7 +45,7 @@ public class HibernateTemplateSupplierDao implements SupplierDao {
 	@Override
 	public void deleteSupplier(Integer supplierId) throws DaoException {
 		Supplier supplier = getSupplier(supplierId);
-		supplier.setCompanyName("----DELETED----"+"["+supplier.getCompanyName()+"]");
+		supplier.setInActive(1);
 		updateSupplier(supplier);
 
 	}
