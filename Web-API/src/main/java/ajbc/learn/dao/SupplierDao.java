@@ -44,6 +44,10 @@ public interface SupplierDao {
 	public default List<Supplier> getSupplierByCountry(String country) throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
+	
+	public default List<Supplier> getActiveSuppliers(int inActive) throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
 
 
 	public default long count() throws DaoException {

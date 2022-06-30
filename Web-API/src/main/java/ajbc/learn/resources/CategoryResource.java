@@ -101,5 +101,22 @@ public class CategoryResource {
 			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
 		}
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/activity/{inActive}")
+	public ResponseEntity<?> getActiveCategories(@PathVariable int inActive) {
+	
+		List<Category> categoriesInActive;
+		try {
+			categoriesInActive = dao.getActiveCategories(inActive);
+			return ResponseEntity.ok(categoriesInActive);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get category activity");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
 
 }

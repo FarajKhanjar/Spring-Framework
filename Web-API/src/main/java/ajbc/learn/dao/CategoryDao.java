@@ -35,6 +35,10 @@ public interface CategoryDao {
 	public default List<Category> getAllCategories() throws DaoException {
 		throw new DaoException("Method not implemented");
 	}
+	
+	public default List<Category> getActiveCategories(int inActive) throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
 
 
 

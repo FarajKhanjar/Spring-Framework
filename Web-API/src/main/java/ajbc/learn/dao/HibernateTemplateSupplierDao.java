@@ -88,6 +88,19 @@ public class HibernateTemplateSupplierDao implements SupplierDao {
 		criteria.setProjection(Projections.rowCount());
 		return (long)template.findByCriteria(criteria).get(0);
 	}
+	
+	@Override
+	public List<Supplier> getActiveSuppliers(int inActive) throws DaoException {	
+		List<Supplier> allSuppliers = getAllSuppliers();
+		List<Supplier> suppliersInActive = new ArrayList<Supplier>();
+		for(Supplier s : allSuppliers)
+			if(s.getInActive()==inActive)
+				suppliersInActive.add(template.get(Supplier.class, s.getSupplierId()));
+
+		if (suppliersInActive.isEmpty())
+			throw new DaoException("InActive check can be 0=active or 1=inActive");
+		return suppliersInActive;
+	}
 
 	
 }

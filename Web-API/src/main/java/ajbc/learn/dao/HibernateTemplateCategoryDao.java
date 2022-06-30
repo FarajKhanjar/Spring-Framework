@@ -1,5 +1,6 @@
 package ajbc.learn.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
@@ -11,7 +12,6 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import ajbc.learn.models.Category;
-import ajbc.learn.models.Supplier;
 
 @SuppressWarnings("unchecked")
 @Component(value="ht_Category_Dao")
@@ -53,7 +53,21 @@ public class HibernateTemplateCategoryDao implements CategoryDao {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Category.class);
 		return (List<Category>)template.findByCriteria(criteria);
 	}
+	
+	@Override
+	public List<Category> getActiveCategories(int inActive) throws DaoException {	
+		List<Category> allCategories = getAllCategories();
+		List<Category> categoriesInActive = new ArrayList<Category>();
+		for(Category c : allCategories)
+			if(c.getInActive()==inActive)
+				categoriesInActive.add(template.get(Category.class, c.getCategoryId()));
 
+		if (categoriesInActive.isEmpty())
+			throw new DaoException("InActive check can be 0=active or 1=inActive");
+		return categoriesInActive;
+	}
+	
+	
 
 	@Override
 	public long count() throws DaoException {

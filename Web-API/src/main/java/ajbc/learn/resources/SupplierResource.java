@@ -137,5 +137,22 @@ public class SupplierResource {
 		}
 
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/activity/{inActive}")
+	public ResponseEntity<?> getActiveSuppliers(@PathVariable int inActive) {
+	
+		List<Supplier> suppliersInActive;
+		try {
+			suppliersInActive = dao.getActiveSuppliers(inActive);
+			return ResponseEntity.ok(suppliersInActive);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get supplier activity");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
 
 }
