@@ -199,4 +199,21 @@ public class ProductResource {
 
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, path="/discontinue")
+	public ResponseEntity<?> getDiscontinuedProducts() {
+	
+		List<Product> discontinuedProducts;
+		try {
+			discontinuedProducts = dao.getDiscontinuedProducts();
+			return ResponseEntity.ok(discontinuedProducts);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get products activity");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
+	
 }
