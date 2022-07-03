@@ -1,0 +1,122 @@
+package ajbc.learn.springboot.bootDemo.resources;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import ajbc.learn.springboot.bootDemo.daos.CategoryDao;
+import ajbc.learn.springboot.bootDemo.daos.DaoException;
+import ajbc.learn.springboot.bootDemo.entities.Category;
+import ajbc.learn.springboot.bootDemo.entities.ErrorMessage;
+
+
+
+@RequestMapping("/categories")
+@RestController
+public class CategoryResource {
+
+	@Autowired
+	CategoryDao dao;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Category>> getAllCategories() throws DaoException{
+		List<Category> list = dao.getAllCategories();
+		if(list==null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(list);
+	}	
+	
+	@RequestMapping(method = RequestMethod.GET, path="/{id}")
+	public ResponseEntity<?> getCategoriesById(@PathVariable Integer id) {
+		
+		Category category;
+		try {
+			category = dao.getCategory(id);
+			return ResponseEntity.ok(category);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get category with id: "+id);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<?> addCategory(@RequestBody Category category) {
+		
+		try {
+			dao.addCategory(category);
+			category = dao.getCategory(category.getCategoryId());
+			return ResponseEntity.status(HttpStatus.CREATED).body(category);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to add category to DB");
+			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
+		}
+
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, path="/{id}")
+	public ResponseEntity<?> updateCategory(@RequestBody Category prod, @PathVariable Integer id) {
+		
+		try {
+			prod.setCategoryId(id);
+			dao.updateCategory(prod);
+			prod = dao.getCategory(prod.getCategoryId());
+			return ResponseEntity.status(HttpStatus.OK).body(prod);
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("failed to update category in db");
+			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, path="/{id}")
+	public ResponseEntity<?> deleteCategory(@PathVariable Integer id) {
+		
+		try {
+			Category category = dao.getCategory(id);
+			dao.deleteCategory(id);
+			category = dao.getCategory(id);
+			return ResponseEntity.status(HttpStatus.OK).body(category);
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("failed to delete category from db");
+			return ResponseEntity.status(HttpStatus.valueOf(500)).body(errorMessage);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path="/activity/{inActive}")
+	public ResponseEntity<?> getActiveCategories(@PathVariable int inActive) {
+	
+		List<Category> categoriesInActive;
+		try {
+			categoriesInActive = dao.getActiveCategories(inActive);
+			return ResponseEntity.ok(categoriesInActive);
+			
+		} catch (DaoException e) {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setData(e.getMessage());
+			errorMessage.setMessage("Failed to get category activity");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+		}
+
+	}
+
+}
